@@ -87,14 +87,6 @@ public class LoginActivity extends AppCompatActivity {
                                 LoginResponse loginResponse = response.body();
                                 UserData userData = loginResponse.getData();
 
-//                                Log.d("LoginResponse", "Message: " + loginResponse.getMessage());
-//                                Log.d("LoginResponse", "Token: " + loginResponse.getToken());
-//                                Log.d("LoginResponse", "Data - ID: " + userData.getId());
-//                                Log.d("LoginResponse", "Data - Username: " + userData.getUsername());
-//                                Log.d("LoginResponse", "Data - Password: " + userData.getPassword());
-//                                Log.d("LoginResponse", "Data - Role: " + userData.getRole());
-//                                Log.d("LoginResponse", "Data - Name: " + userData.getName());
-
                                 if (!loginResponse.isError()) {
 //                                    String message = jsonRESULTS.getString("message");
                                     String message = loginResponse.getMessage();

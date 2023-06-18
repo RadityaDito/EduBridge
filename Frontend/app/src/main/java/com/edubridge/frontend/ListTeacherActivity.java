@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.edubridge.frontend.R;
 import com.edubridge.frontend.model.Item;
 import com.edubridge.frontend.model.MyAdapter;
-import com.edubridge.frontend.model.Student;
-import com.edubridge.frontend.model.StudentResponse;
+import com.edubridge.frontend.model.Teacher;
+import com.edubridge.frontend.model.TeacherResponse;
 import com.edubridge.frontend.request.BaseApiService;
 import com.edubridge.frontend.request.UtilsApi;
 
@@ -32,20 +32,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListActivity extends AppCompatActivity implements MyAdapter.ItemClickListener {
+public class ListTeacherActivity extends AppCompatActivity implements MyAdapter.ItemClickListener {
 
-    private List<Student> students;
+    private List<Teacher> teachers;
     private Context mContext;
     private BaseApiService mApiService;
     private SharedPreferences sharedPreferences;
     private ProgressDialog loading;
 
-    String classroomName;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_list_teacher);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         mContext = this;
@@ -57,61 +55,46 @@ public class ListActivity extends AppCompatActivity implements MyAdapter.ItemCli
             @Override
             public void onClick(View v) {
                 // Create an intent to navigate to the previous activity
-                Intent intent = new Intent(ListActivity.this, ClassroomActivity.class);
+                Intent intent = new Intent(ListTeacherActivity.this, DashboardActivity.class);
                 startActivity(intent);
             }
         });
 
-
-        Intent intent = getIntent();
-        classroomName = intent.getStringExtra("name");
-        System.out.println(classroomName);
-
-        TextView classroomNameTextView = findViewById(R.id.classroomName);
-        classroomNameTextView.setText(classroomName + " Students");
-
-
-        getStudentByClass();
+        getTeachers();
     }
 
-    private void getStudentByClass() {
-        mApiService.getStudentsByClass(classroomName).enqueue(new Callback<StudentResponse>() {
+    private void getTeachers() {
+        mApiService.getTeachers().enqueue(new Callback<TeacherResponse>() {
             @Override
-            public void onResponse(Call<StudentResponse> call, Response<StudentResponse> response) {
+            public void onResponse(Call<TeacherResponse> call, Response<TeacherResponse> response) {
                 if (response.isSuccessful()) {
                     // API call successful, handle the response
-                    StudentResponse studentResponse = response.body();
-                    students = studentResponse.getData();
-                    // Process the list of students
-                    displayStudentData();
+                    TeacherResponse teacherResponse = response.body();
+                    teachers = teacherResponse.getData();
+                    // Process the list of teachers
+                    displayTeacherData();
                 } else {
                     // API call failed
-                    Toast.makeText(mContext, "FAILED TO GET STUDENT", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "FAILED TO GET TEACHERS", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<StudentResponse> call, Throwable t) {
-                Toast.makeText(mContext, "FAILED TO GET STUDENT", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<TeacherResponse> call, Throwable t) {
+                Toast.makeText(mContext, "FAILED TO GET TEACHERS", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void displayStudentData() {
+    private void displayTeacherData() {
         // Create a list of items to display in the RecyclerView
         List<Item> items = new ArrayList<Item>();
 
-
-
-        // Add items based on the retrieved students
-        for (Student student : students) {
-            String name = student.getName();
-            String nomorIndukSiswa = student.getNomorIndukSiswa();
-//            System.out.println(student.getClassroomName());
-//            System.out.println(student.getAge());
-//            System.out.println(student.getName());
-//            System.out.println(student.getNomorIndukSiswa());
-            Item item = new Item(name, nomorIndukSiswa, R.drawable.student_avatar);
+        // Add items based on the retrieved teachers
+        for (Teacher teacher : teachers) {
+            String name = teacher.getName();
+            String subject = teacher.getSubjectName();
+            Item item = new Item(name, subject, R.drawable.teacher_avatar2);
             items.add(item);
         }
 
@@ -128,14 +111,15 @@ public class ListActivity extends AppCompatActivity implements MyAdapter.ItemCli
         // Handle item click event
         // Example: Intent to another activity
         Log.d("SharedPreferences", "Token: ");
-        Intent intent = new Intent(ListActivity.this, StudentActivity.class);
+        Intent intent = new Intent(ListTeacherActivity.this, TeacherActivity.class);
 
-        intent.putExtra("id", students.get(position).getId());
-        intent.putExtra("name", students.get(position).getName());
-        intent.putExtra("classroomName", students.get(position).getClassroomName());
-        intent.putExtra("age", students.get(position).getAge());
-        intent.putExtra("nomorInduk", students.get(position).getNomorIndukSiswa());
 
+        intent.putExtra("id", teachers.get(position).getId());
+        intent.putExtra("name", teachers.get(position).getName());
+        intent.putExtra("classroomName", teachers.get(position).getClassroomName());
+        intent.putExtra("subjectName", teachers.get(position).getSubjectName());
+        intent.putExtra("age", teachers.get(position).getAge());
+        intent.putExtra("nomorInduk", teachers.get(position).getNomorIndukGuru());
 
         startActivity(intent);
     }

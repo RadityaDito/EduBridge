@@ -77,6 +77,89 @@ const register = async (req, res) => {
   }
 };
 
+const registerMobile = async (req, res) => {
+  try {
+    await db.query("BEGIN");
+
+    //Take data from request body
+    const { username, password, role, classroom_name } = req.body;
+    console.log(req.body);
+
+    //Get classroom_id
+    const queryClassroom = `SELECT id from classroom WHERE name = $1`;
+    const resultClassroom = await db.query(queryClassroom, [classroom_name]);
+
+    const classroom_id = resultClassroom.rows[0].id;
+
+    console.log(classroom_id);
+
+    //Error Handling
+    if (role !== "Teacher" && role !== "Admin" && role !== "Student") {
+      res.status(404).json({ message: "Invalid role" });
+      return;
+    }
+
+    //Hash The Password
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    //Create New User and Add it to database
+    const query =
+      "INSERT INTO users (username, password, role) VALUES ($1, $2, $3) RETURNING *";
+
+    const result = await db.query(query, [username, hashedPassword, role]);
+
+    const user = result.rows[0];
+
+    // const user_id = result.rows[0].id;
+
+    //Check the classroom_id
+    if (role !== "Admin") {
+      const isClassroomExist = await checkIdExists("classroom", classroom_id);
+
+      if (!isClassroomExist) {
+        res.status(404).json({ message: "Classroom didnt Exist", error: true });
+        return;
+      }
+    }
+
+    //Check the Role
+    if (role === "Student") {
+      const { name, age, nomor_induk_siswa } = req.body;
+      const queryStudent =
+        "INSERT INTO student (name, age, classroom_id, user_id, nomor_induk_siswa) VALUES ($1, $2, $3, $4, $5)";
+      await db.query(queryStudent, [
+        name,
+        age,
+        classroom_id,
+        user.id,
+        nomor_induk_siswa,
+      ]);
+    }
+
+    //Name, age, Nomor_Induk_Guru, subject, user_id
+    if (role === "Teacher") {
+      const { name, age, nomor_induk_guru } = req.body;
+      const queryTeacher =
+        "INSERT INTO teacher (name, age, nomor_induk_guru, classroom_id, user_id) VALUES ($1, $2, $3, $4, $5)";
+      await db.query(queryTeacher, [
+        name,
+        age,
+        nomor_induk_guru,
+        classroom_id,
+        user.id,
+      ]);
+    }
+
+    await db.query("COMMIT");
+    res.status(200).json({ message: "Register Succesfull", data: user });
+  } catch (error) {
+    await db.query("ROLLBACK");
+    console.log(error.message);
+    res.status(404).json({ message: error.message });
+  }
+};
+
 const login = async (req, res) => {
   try {
     //Take data from req.body
@@ -269,6 +352,7 @@ const generateAccessToken = (user) => {
 
 module.exports = {
   register,
+  registerMobile,
   login,
   getAllUsers,
   getUserByID,

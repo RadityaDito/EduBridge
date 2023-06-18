@@ -6,6 +6,7 @@ const {
   getUserByID,
   logout,
   verifyToken,
+  registerMobile,
 } = require("../controllers/authControllers");
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.get("/token", verifyToken);
 router.post("/login", login);
 router.post("/logout", logout);
 router.post("/register", register);
+router.post("/registerMobile", registerMobile);
 
 const AuthRoute = router;
 module.exports = AuthRoute;

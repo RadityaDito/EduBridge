@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/amazonDesc"
-            android:text="The Best E-Learning"
+            android:text="School Database Management"
             android:textSize="14sp"
             android:layout_marginStart="18dp"
             android:textColor="@color/lavender"
@@ -152,6 +152,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 app:cardElevation="20dp"
+                android:id="@+id/addStudentCard"
                 app:cardCornerRadius="20dp">
 
                 <RelativeLayout
@@ -162,7 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/homeName"
-                        android:text="Home"
+                        android:text="Add Student"
                         android:textSize="20sp"
                         android:textColor="@color/lavender"
                         android:fontFamily="@font/poppins_semibold"
@@ -187,6 +188,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 app:cardElevation="20dp"
+                android:id="@+id/addTeacherCard"
                 app:cardCornerRadius="20dp">
 
                 <RelativeLayout
@@ -197,7 +199,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/beautyName"
-                        android:text="Beauty"
+                        android:text="Add Teacher"
                         android:textSize="20sp"
                         android:textColor="@color/lavender"
                         android:fontFamily="@font/poppins_semibold"
@@ -235,6 +237,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 app:cardElevation="20dp"
+                android:id="@+id/addClassroomCard"
                 app:cardCornerRadius="20dp">
 
                 <RelativeLayout
@@ -245,7 +248,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/pharmName"
-                        android:text="Pharmacy"
+                        android:text="Add Classroom"
                         android:textSize="20sp"
                         android:textColor="@color/lavender"
                         android:fontFamily="@font/poppins_semibold"

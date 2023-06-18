@@ -30,7 +30,7 @@
                     android:id="@+id/classroomName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="X MIPA 1 Students"
+                    android:text="Teachers"
                     android:textColor="#000000"
                     android:textSize="25dp"
                     android:textStyle="bold"
@@ -51,7 +51,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="1dp"
                     android:background="#E0E0F0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

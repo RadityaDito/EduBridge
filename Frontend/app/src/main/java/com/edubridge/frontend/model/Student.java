@@ -3,8 +3,9 @@ package com.edubridge.frontend.model;
 public class Student {
     private String id;
     private String name;
+    private int age;
     private String nomor_induk_siswa;
-    private String subject_name;
+    private String classroom_name;
 
     public String getId() {
         return id;
@@ -26,16 +27,20 @@ public class Student {
         return nomor_induk_siswa;
     }
 
+    public int getAge(){
+        return age;
+    }
+
     public void setNomorIndukSiswa(String nomor_induk_siswa) {
         this.nomor_induk_siswa = nomor_induk_siswa;
     }
 
-    public String getSubjectName() {
-        return subject_name;
+    public String getClassroomName() {
+        return classroom_name;
     }
 
-    public void setSubjectName(String subject_name) {
-        this.subject_name = subject_name;
+    public void setClassroomName(String classroom_name) {
+        this.classroom_name = classroom_name;
     }
 }
 

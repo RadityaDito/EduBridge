@@ -48,6 +48,28 @@ const getStudentById = async (req, res) => {
   }
 };
 
+const deleteStudentById = async (req, res) => {
+  try {
+    const id = req.params.student_id;
+
+    // Delete student
+    const query = "DELETE FROM student WHERE id = $1";
+
+    const results = await db.query(query, [id]);
+
+    if (results.rowCount === 0) {
+      res.status(404).json({ message: "Student Not Found" });
+      return;
+    }
+
+    res
+      .status(200)
+      .json({ message: "Successfully deleted student", error: false });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: true });
+  }
+};
+
 const getStudentByName = async (req, res) => {
   try {
     const name = req.body.name;
@@ -196,4 +218,5 @@ module.exports = {
   getStudentByName,
   getAllMockData,
   getStudentBySubjectId,
+  deleteStudentById,
 };

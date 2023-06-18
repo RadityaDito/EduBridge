@@ -19,6 +19,9 @@ public class DashboardActivity extends AppCompatActivity {
 
     private CardView studentCard;
     private CardView teacherCard;
+    private CardView addStudentCard;
+    private CardView addTeacherCard;
+    private CardView addClassroomCard;
 
     private Context mContext;
     private BaseApiService mApiService;
@@ -32,6 +35,9 @@ public class DashboardActivity extends AppCompatActivity {
         //Assign Id to Variable
         studentCard = findViewById(R.id.studentCard);
         teacherCard = findViewById(R.id.teacherCard);
+        addStudentCard = findViewById(R.id.addStudentCard);
+        addTeacherCard = findViewById(R.id.addTeacherCard);
+        addClassroomCard = findViewById(R.id.addClassroomCard);
 
 
         sharedPreferences = getSharedPreferences("MyAccount", Context.MODE_PRIVATE);
@@ -58,7 +64,7 @@ public class DashboardActivity extends AppCompatActivity {
                 // Perform action when the CardView is clicked
 
                 // Create an Intent to navigate to the desired activity
-                Intent intent = new Intent(DashboardActivity.this, ListActivity.class);
+                Intent intent = new Intent(DashboardActivity.this, ClassroomActivity.class);
                 startActivity(intent);
             }
         });
@@ -69,9 +75,43 @@ public class DashboardActivity extends AppCompatActivity {
                 // Perform action when the CardView is clicked
 
                 // Create an Intent to navigate to the desired activity
-                Intent intent = new Intent(DashboardActivity.this, StudentActivity.class);
+                Intent intent = new Intent(DashboardActivity.this, ListTeacherActivity.class);
                 startActivity(intent);
             }
         });
+
+        addStudentCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform action when the CardView is clicked
+
+                // Create an Intent to navigate to the desired activity
+                Intent intent = new Intent(DashboardActivity.this, addStudentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        addTeacherCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform action when the CardView is clicked
+
+                // Create an Intent to navigate to the desired activity
+                Intent intent = new Intent(DashboardActivity.this, addTeacherActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        addClassroomCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform action when the CardView is clicked
+
+                // Create an Intent to navigate to the desired activity
+                Intent intent = new Intent(DashboardActivity.this, AddClassroomActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

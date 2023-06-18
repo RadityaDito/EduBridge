@@ -73,6 +73,28 @@ const getTeacherById = async (req, res) => {
   }
 };
 
+const deleteTeacherById = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    // Delete teacher
+    const query = "DELETE FROM teacher WHERE id = $1";
+
+    const results = await db.query(query, [id]);
+
+    if (results.rowCount === 0) {
+      res.status(404).json({ message: "Teacher Not Found", error: true });
+      return;
+    }
+
+    res
+      .status(200)
+      .json({ message: "Successfully deleted teacher", error: false });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: true });
+  }
+};
+
 const getTeacherBySubject = async (req, res) => {
   try {
     const name = req.params.name;
@@ -125,4 +147,5 @@ module.exports = {
   getTeacherBySubject,
   getTeacherById,
   getAvailableTeacher,
+  deleteTeacherById,
 };
